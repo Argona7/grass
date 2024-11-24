@@ -53,8 +53,7 @@ class GrassRest(BaseClient):
             'app': 'dashboard',
         }
 
-        response = await self.session.post(url, headers=self.website_headers, json=await self.get_json_params(params,
-                                                                                                              REF_CODE),
+        response = await self.session.post(url, headers=self.website_headers, json=await self.get_json_params(params),
                                            proxy=self.proxy)
         if response.status != 200 or "error" in await response.text():
             if "Email Already Registered" in await response.text() or \
@@ -363,20 +362,16 @@ Nonce: {timestamp}"""
         device_info = await self.get_device_info(device_id, user_id)
         return device_info['data']['final_score']
 
-    async def get_json_params(self, params, user_referral: str, main_referral: str = "erxggzon61FWrJ9",
-                              role_stable: str = "726566657272616c"):
+    async def get_json_params(self, params):
         self.username = Person().username
 
-        referrals = {
-            "my_refferral": main_referral,
-            "user_refferal": user_referral
-        }
+
 
         json_data = {
             'email': self.email,
             'password': self.password,
             'role': 'USER',
-            'referral': random.choice(list(referrals.items())),
+            'referralCode': "PrGBWSwdBgas4S0",
             'username': self.username,
             'recaptchaToken': "",
             'listIds': [
